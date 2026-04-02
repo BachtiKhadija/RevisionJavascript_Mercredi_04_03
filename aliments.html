@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Fruits & Légumes</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Choisir une couleur</h2>
+
+    <!-- Select -->
+    <div class="mb-4 text-center">
+        <select id="colorSelect" class="form-select w-50 mx-auto">
+            <option value="" selected disabled>-- Choisir une couleur --</option>  
+        </select>
+    </div>
+
+    <div class="row">
+       
+        <div class="col-md-8">
+            <div class="row" id="cardContainer"></div>
+        </div>
+
+       
+        <div class="col-md-4">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5>Détails</h5>
+                    <div id="detailsZone">
+                        <p class="text-muted">Clique sur un élément pour voir les détails</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+const data = [
+    { nom: "Pomme", type: "Fruit", couleur: "rouge", calories: 52, vitamines: "C" },
+    { nom: "Fraise", type: "Fruit", couleur: "rouge", calories: 33, vitamines: "C" },
+    { nom: "Tomate", type: "Légume", couleur: "rouge", calories: 18, vitamines: "A, C" },
+
+    { nom: "Brocoli", type: "Légume", couleur: "vert", calories: 55, vitamines: "K, C" },
+    { nom: "Pomme verte", type: "Fruit", couleur: "vert", calories: 48, vitamines: "C" },
+
+    { nom: "Banane", type: "Fruit", couleur: "jaune", calories: 89, vitamines: "B6" },
+    { nom: "Citron", type: "Fruit", couleur: "jaune", calories: 29, vitamines: "C" },
+
+    { nom: "Orange", type: "Fruit", couleur: "orange", calories: 47, vitamines: "C" },
+    { nom: "Carotte", type: "Légume", couleur: "orange", calories: 41, vitamines: "A" }
+];
+
+const colors=[...new Set(data.map(al=>al.couleur))];
+colors.forEach(function(c,pos){
+   document.querySelector('#colorSelect').innerHTML+=`<option value="${c}">${c}</option>`
+});
+
+
+const select = document.getElementById("colorSelect");
+const container = document.getElementById("cardContainer");
+const detailsZone = document.getElementById("detailsZone");
+
+// Filtrage
+select.addEventListener("change", (e) => {
+    const couleur = e.target.value;
+    container.innerHTML = "";
+    detailsZone.innerHTML = "<p class='text-muted'>Clique sur un élément pour voir les détails</p>";
+
+    const resultats = data.filter(item => item.couleur === couleur);
+
+    resultats.forEach(item => {
+
+        const card = document.createElement("div");
+        card.className = "col-md-6 mb-4";
+
+        card.innerHTML = `
+            <div class="card shadow h-100">
+                <div class="card-body text-center">
+                    <h5>${item.nom}</h5>
+                    <p>${item.type}</p>
+                    <button class="btn btn-success">Voir détails</button>
+                </div>
+            </div>
+        `;
+
+        // Event click
+        card.querySelector("button").addEventListener("click", () => {
+            afficherDetails(item);
+        });
+
+        container.appendChild(card);
+    });
+});
+
+// Affichage des détails
+function afficherDetails(item) {
+    detailsZone.innerHTML = `
+        <p><strong>Nom :</strong> ${item.nom}</p>
+        <p><strong>Type :</strong> ${item.type}</p>
+        <p><strong>Couleur :</strong> ${item.couleur}</p>
+        <p><strong>Calories :</strong> ${item.calories}</p>
+        <p><strong>Vitamines :</strong> ${item.vitamines}</p>
+    `;
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+{"aliments" : [
+    { "nom": "Pomme", "type": "Fruit", "couleur": "rouge", "calories": 52, "vitamines": "C" },
+    { "nom": "Fraise", "type": "Fruit", "couleur": "rouge", "calories": 33, "vitamines": "C" },
+    { "nom": "Tomate", "type": "Légume", "couleur": "rouge", "calories": 18, "vitamines": "A, C" },
+
+    { "nom": "Brocoli", "type": "Légume", "couleur": "vert", "calories": 55, "vitamines": "K, C" },
+    { "nom": "Pomme verte", "type": "Fruit", "couleur": "vert", "calories": 48, "vitamines": "C" },
+
+    { "nom": "Banane", "type": "Fruit", "couleur": "jaune", "calories": 89, "vitamines": "B6" },
+    { "nom": "Citron", "type": "Fruit", "couleur": "jaune", "calories": 29, "vitamines": "C" },
+
+    { "nom": "Orange", "type": "Fruit", "couleur": "orange", "calories": 47, "vitamines": "C" },
+    { "nom": "Carotte", "type": "Légume", "couleur": "orange", "calories": 41, "vitamines": "A" }
+]
+
+}
