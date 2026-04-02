@@ -43,6 +43,15 @@
         function setFil(event){
             fil=event.target.value;
         }
+        //getMaxNote
+        function getMaxNote(){
+            if(data.length==0) return ;
+            let max=data[0].note;
+            for(let s of data){
+                if(s.note>max)max=note;
+            }
+            return max;
+        }
         //Validation
         function validation(){
             nom=document.querySelector('#nom').value;
@@ -59,7 +68,7 @@
            else{
           document.querySelector('#content').innerHTML='';
              document.querySelector('#content').innerHTML= data.map((r,pos)=>`<tr><td>${r.id}</td><td>${r.nom}</td><td>${r.note}</td><td><button type="button" onclick="supprimer(${pos})">Supprimer</button></td></tr>`).join('');
-
+             document.querySelector('#content').innerHTML+=`<tr><td colspan="2">La note maximale est : </td><td>${getMaxNote()}</td></tr>`;
            }
           }
          //appeler la fonction Display onload
