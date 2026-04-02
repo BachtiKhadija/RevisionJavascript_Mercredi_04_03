@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <form action="" id="myF">
+        <fieldset>
+            <legend>Nouvelle Ligne</legend>
+            <table cellspacing="8">
+                <tr><td>ID</td><td><input type="text" readonly id="pk"><button type="button" onclick="getId()">Lire</button></td></tr>
+                <tr><td>Nom</td><td><input type="text" id="nom"></td></tr>
+                <tr><td>Filiere</td><td><input type="radio" onclick="setFil(event)" checked value="TDI" id="tdi" name="filiere">TDI &nbsp;<input type="radio" onclick="setFil(event)" value="TDM" id="tdm" name="filiere">TDM &nbsp;<input type="radio" onclick="setFil(event)" value="TRI" id="tri" name="filiere">TRI</td></tr>
+           <tr><td>Note</td><td><input type="number" min="0" max="20" id="note"></td></tr>
+           <tr><td colspan="2"><button type="button" onclick="ajouter()">Ajouter nouveau</button></td></tr>
+            </table>
+        </fieldset>
+    </form>
+    <table border cellspacing="8">
+        <thead><tr><th>ID</th><th>Nom</th><th>Note</th><th>Actions</th></tr></thead>
+      <tbody id="content"></tbody>
+    
+    </table>
+
+
+
+
+
+    <script type="text/javascript">
+        let data=[];
+        var newId=1;
+        var fil='TDI';
+        //Function getId
+        function getId(){
+            if(data.length>0){
+               newId= data[data.length-1].id+1;
+            }
+             document.querySelector('#pk').value=newId;
+        }
+        //SetFil
+        function setFil(event){
+            fil=event.target.value;
+        }
+        //Validation
+        function validation(){
+            nom=document.querySelector('#nom').value;
+           note=document.querySelector('#note').value;
+            let regNom=new RegExp('^[A-Z][a-zA-Z]{3,}$');
+            return(regNom.test(nom) && note>=0 && note<=10)
+          
+        }
+        //function Display
+          function Display(){
+           if(data.length==0){
+            document.querySelector('#content').innerHTML=`<tr><td colspan="4"> No Data Found !!!!!!!!</td></tr>`;
+           }
+           else{
+          document.querySelector('#content').innerHTML='';
+             document.querySelector('#content').innerHTML= data.map((r,pos)=>`<tr><td>${r.id}</td><td>${r.nom}</td><td>${r.note}</td><td><button type="button" onclick="supprimer(${pos})">Supprimer</button></td></tr>`).join('');
+
+           }
+          }
+         //appeler la fonction Display onload
+          Display();
+         //Fct Ajouter
+        function ajouter(){
+            //validation
+
+            if (validation()){
+            nom=document.querySelector('#nom').value;
+           note=document.querySelector('#note').value;
+            data.push({id:newId,nom,filiere:fil,note});
+            Display();
+            document.querySelector('#myF').reset();
+            }else{
+
+                alert("les données sont invalides !!!");
+            }
+
+        }
+       //fonction Supprimer
+        function supprimer(pos){
+            if(confirm('Vous voulez vraiment supprimer ?')){
+                data.splice(pos,1);
+                Display();
+            }
+        }
+    </script>
+</body>
+</html>
