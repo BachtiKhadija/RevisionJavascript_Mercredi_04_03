@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Filtre Produits</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+
+<div class="container py-4">
+  <h2 class="text-center mb-4">Filtrer les produits</h2>
+
+  <!-- Filtres -->
+  <div class="row mb-3">
+    <div class="col-md-4">
+      <select id="categorie" class="form-select">
+        <option value="all">Toutes catégories</option>
+        <option value="smartphone">Smartphone</option>
+        <option value="ordinateur">Ordinateur</option>
+        <option value="tablette">Tablette</option>
+      </select>
+    </div>
+
+    <div class="col-md-4">
+      <input type="text" id="search" class="form-control" placeholder="Rechercher...">
+    </div>
+  </div>
+
+  <!-- Produits -->
+  <div class="row" id="list"></div>
+
+  <!-- Détails -->
+  <div class="mt-4 p-3 border bg-white" id="details">
+    <h4>Détails du produit</h4>
+    <p>Sélectionnez un produit</p>
+  </div>
+</div>
+
+<script>
+const produits = [
+  { id: 1, nom: "iPhone 13", categorie: "smartphone", prix: 900, marque: "Apple" },
+  { id: 2, nom: "Samsung S21", categorie: "smartphone", prix: 800, marque: "Samsung" },
+  { id: 3, nom: "MacBook", categorie: "ordinateur", prix: 2000, marque: "Apple" },
+  { id: 4, nom: "HP Pavilion", categorie: "ordinateur", prix: 1000, marque: "HP" },
+  { id: 5, nom: "iPad", categorie: "tablette", prix: 600, marque: "Apple" }
+];
+
+const list = document.getElementById("list");
+const categorie = document.getElementById("categorie");
+const search = document.getElementById("search");
+const details = document.getElementById("details");
+
+// afficher produits
+function afficher(data) {
+  list.innerHTML = "";
+
+  data.map(p => {
+    list.innerHTML += `
+      <div class="col-md-4 mb-3">
+        <div class="card p-3">
+          <h5>${p.nom}</h5>
+          <p>${p.prix} €</p>
+          <button class="btn btn-primary" onclick="voirDetails(${p.id})">
+            Voir détails
+          </button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+// filtre
+function filtrer() {
+  let cat = categorie.value;
+  let txt = search.value.toLowerCase();
+
+  let result = produits.filter(p => {
+    return (cat === "all" || p.categorie === cat) &&
+           p.nom.toLowerCase().includes(txt);
+  });
+
+  afficher(result);
+}
+
+// détails
+function voirDetails(id) {
+  let p = produits.find(el => el.id === id);
+
+  details.innerHTML = `
+    <h4>${p.nom}</h4>
+    <p><strong>Catégorie :</strong> ${p.categorie}</p>
+    <p><strong>Prix :</strong> ${p.prix} €</p>
+    <p><strong>Marque :</strong> ${p.marque}</p>
+  `;
+}
+
+// events
+categorie.addEventListener("change", filtrer);
+search.addEventListener("input", filtrer);
+
+// affichage initial
+afficher(produits);
+</script>
+
+</body>
+</html>
